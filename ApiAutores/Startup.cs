@@ -1,4 +1,6 @@
-﻿namespace ApiAutores
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace ApiAutores
 {
     public class Startup
     {
@@ -12,7 +14,11 @@
         public void ConfigureServices(IServiceCollection services)
         {
             // Add services to the container.
-            services.AddControllers();            
+            services.AddControllers();
+            
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
@@ -34,7 +40,8 @@
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => {
+            app.UseEndpoints(endpoints =>
+            {
                 endpoints.MapControllers();
             });
 
