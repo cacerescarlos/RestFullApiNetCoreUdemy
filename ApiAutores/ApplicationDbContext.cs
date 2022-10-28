@@ -13,5 +13,6 @@ namespace ApiAutores
         /// Tablas que se van a generar
         /// </summary>
         public DbSet<Autor> Autores { get; set; }
+        public DbSet<Libro> Libros { get; set; }
     }
 }
