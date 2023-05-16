@@ -1,0 +1,15 @@
+﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+
+namespace WebAPIAutores.Utilidades
+{
+    public class SwaggerAgrupaPorVersion : IControllerModelConvention
+    {
+        public void Apply(ControllerModel controller)
+        {
+            var namespaceControlador = controller.ControllerType.Namespace; // Controllers.V1
+            var versionAPI = namespaceControlador.Split(".").Last().ToLower(); // V1
+            controller.ApiExplorer.GroupName = versionAPI;
+
+        }
+    }
+}
