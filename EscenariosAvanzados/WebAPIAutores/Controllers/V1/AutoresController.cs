@@ -36,9 +36,14 @@ namespace WebAPIAutores.Controllers.V1
         [HttpGet(Name = "obtenerAutoresv1")] // api/autores
         [AllowAnonymous]
         [ServiceFilter(typeof(HATEOASAutorFilterAttribute))]
-        public async Task<ActionResult<List<AutorDTO>>> Get()
+        public async Task<ActionResult<List<AutorDTO>>> Get([FromQuery] PaginacionDTO paginacionDTO)
         {
-            var autores = await context.Autores.ToListAsync();
+            var queryable = context.Autores.AsQueryable();
+            await HttpContext.InsertarParametrosPaginacionCabecera(queryable);
+            var autores = await queryable.OrderBy(autor=>autor.Nombre)
+                                         .Paginar(paginacionDTO)
+                                         .ToListAsync();
+
             return mapper.Map<List<AutorDTO>>(autores);
         }
 
