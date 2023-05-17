@@ -3,7 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>56098136-86e8-4f00-a11f-f40fb2ea0d56</UserSecretsId>
-	  <ImplicitUsings>enable</ImplicitUsings>
+	<ImplicitUsings>enable</ImplicitUsings>
+	 <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

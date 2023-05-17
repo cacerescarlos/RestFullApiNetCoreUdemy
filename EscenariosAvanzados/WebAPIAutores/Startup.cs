@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using WebAPIAutores.Filtros;
@@ -21,6 +23,7 @@ using WebAPIAutores.Middlewares;
 using WebAPIAutores.Servicios;
 using WebAPIAutores.Utilidades;
 
+[assembly: ApiConventionType(typeof(DefaultApiConventions))]
 namespace WebAPIAutores
 {
     public class Startup
@@ -59,7 +62,21 @@ namespace WebAPIAutores
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIAutores", Version = "v1" });
+                // documento de swagger
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "WebAPIAutores",
+                    Version = "v1",
+                    Description = "esto es una descripcion",
+                    Contact = new OpenApiContact{
+                        Email = "ccaceres461@gmail.com",
+                        Name = "Carlos Caceres",
+                        Url = new Uri("https://cacerescarlos.com")
+                     },
+                    License = new OpenApiLicense {
+                        Name = "MIT"
+                     }
+                });
+
                 c.SwaggerDoc("v2", new OpenApiInfo { Title = "WebAPIAutores", Version = "v2" });
                 c.OperationFilter<AgregarParametrosHATEOAS>();
                 c.OperationFilter<AgregarParametroXVersion>();
@@ -87,6 +104,10 @@ namespace WebAPIAutores
                         new string[]{}
                     }
                 });
+
+                var archivoXML = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var rutaXML = Path.Combine(AppContext.BaseDirectory, archivoXML);
+                 c.IncludeXmlComments(rutaXML);
 
             });
 
